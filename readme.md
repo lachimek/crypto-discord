@@ -9,6 +9,7 @@ A Discord bot for tracking cryptocurrency purchases and monitoring portfolio per
 - **Average Cost Calculation**: Automatically calculate average buy prices for each coin
 - **JSON Storage**: Simple file-based storage (no database required)
 - **Easy Commands**: Simple Discord slash commands for all operations
+- **Docker Support**: Easy deployment with Docker and Docker Compose
 
 ## Commands
 
@@ -28,14 +29,54 @@ Add a new cryptocurrency purchase to your portfolio.
 ```
 
 ### `/c-status`
-Display your current portfolio with average buy prices and percentage changes.
+Display your current portfolio with detailed performance metrics and profit/loss calculations.
 
 **Output includes:**
-- List of all owned cryptocurrencies
+- List of all owned cryptocurrencies (sorted by total value)
 - Average buy price for each coin
 - Current market price
-- Percentage change (profit/loss)
-- Total value of each position
+- Profit/Loss amount and percentage for each coin
+- Total quantity held for each coin
+- Total amount invested in each coin
+- Current total holdings value for each coin
+- Grand totals across all holdings:
+  - Total portfolio value
+  - Total amount invested
+  - Overall profit/loss amount and percentage
+
+**Example output:**
+```
+?? Your Portfolio Status
+
+BTC
+Average Buy Price: $ 45,000.00
+Current Price: $ 48,500.00
+Profit/Loss: +$ 175.00 (+7.78%)
+Total Quantity: 0.01000000
+Total Invested: $ 450.00
+Total Holdings: $ 485.00
+
+---
+
+ETH
+Average Buy Price: $ 3,200.00
+Current Price: $ 3,150.00
+Profit/Loss: -$ 125.00 (-3.91%)
+Total Quantity: 2.50000000
+Total Invested: $ 8,000.00
+Total Holdings: $ 7,875.00
+
+Grand Total Holdings: $ 8,360.00
+Grand Total Invested: $ 8,450.00
+Grand Total Profit/Loss: -$ 90.00 (-1.07%)
+```
+
+### `/c-symbols`
+Display all supported cryptocurrency symbols that can be used with the bot.
+
+**Output includes:**
+- Complete list of supported cryptocurrency symbols
+- Useful for checking which coins are available for tracking
 
 ### `/c-help`
 Show help message with all available commands.
@@ -43,11 +84,11 @@ Show help message with all available commands.
 ## Setup Instructions
 
 ### Prerequisites
-- Node.js (v16 or higher)
+- Node.js (v16 or higher) OR Docker and Docker Compose
 - Discord Bot Token
 - CoinGecko API (free, no API key required)
 
-### Installation
+### Option 1: Local Installation
 
 1. **Clone the repository**
    ```bash
@@ -68,25 +109,87 @@ Show help message with all available commands.
      DISCORD_TOKEN=your_discord_bot_token_here
      ```
 
-4. **Invite the bot to your server**
+4. **Build the project**
+   ```bash
+   npm run build
+   ```
+
+5. **Invite the bot to your server**
    - Use the OAuth2 URL generator in the Discord Developer Portal
    - Select "bot" scope and "Send Messages" and "Use Slash Commands" permissions
    - Use the generated URL to invite the bot to your server
 
-5. **Run the bot**
+6. **Run the bot**
    ```bash
-   node index.js
+   npm start
+   ```
+
+### Option 2: Docker Installation (Recommended)
+
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd crypto-discord
+   ```
+
+2. **Configure the bot**
+   - Create a Discord application at [Discord Developer Portal](https://discord.com/developers/applications)
+   - Create a bot and copy the token
+   - Create a `.env` file in the project root:
+     ```
+     DISCORD_TOKEN=your_discord_bot_token_here
+     ```
+
+3. **Invite the bot to your server**
+   - Use the OAuth2 URL generator in the Discord Developer Portal
+   - Select "bot" scope and "Send Messages" and "Use Slash Commands" permissions
+   - Use the generated URL to invite the bot to your server
+
+4. **Run with Docker Compose**
+   ```bash
+   docker-compose up -d
+   ```
+
+   The bot will automatically:
+   - Build the Docker image
+   - Start the container in the background
+   - Restart automatically if it crashes
+   - Persist portfolio data in `portfolio.json`
+
+5. **View logs**
+   ```bash
+   docker-compose logs -f
+   ```
+
+6. **Stop the bot**
+   ```bash
+   docker-compose down
    ```
 
 ## Project Structure
 
 ```
 crypto-discord/
-??? index.js          # Main bot file
-??? package.json      # Dependencies and scripts
-??? portfolio.json    # Portfolio data storage
-??? .env             # Environment variables (create this)
-??? README.md        # This file
+??? commands/           # Discord slash commands
+?   ??? c-add.ts       # Add cryptocurrency purchase
+?   ??? c-help.ts      # Help command
+?   ??? c-status.ts    # Portfolio status
+?   ??? c-symbols.ts   # Supported symbols
+?   ??? index.ts       # Command exports
+??? pricing-api/        # Price fetching logic
+?   ??? index.ts       # CoinGecko API integration
+??? dist/              # Compiled JavaScript (generated)
+??? index.ts           # Main bot file
+??? persistence.ts     # Portfolio data management
+??? types.d.ts         # TypeScript type definitions
+??? utils.ts           # Utility functions
+??? package.json       # Dependencies and scripts
+??? tsconfig.json      # TypeScript configuration
+??? portfolio.json     # Portfolio data storage
+??? .env              # Environment variables (create this)
+??? Dockerfile        # Docker image configuration
+??? docker-compose.yml # Docker Compose configuration
+??? README.md         # This file
 ```
 
 ## Data Storage
@@ -98,9 +201,37 @@ The bot uses a simple JSON file (`portfolio.json`) to store portfolio data. Each
 - Purchase date
 - User ID (for multi-user support)
 
+**Note**: When using Docker, the `portfolio.json` file is mounted as a volume to persist data between container restarts.
+
 ## API Integration
 
 The bot uses the **CoinGecko API** to fetch real-time cryptocurrency prices. This API is free and doesn't require an API key, making it perfect for this project.
+
+## Development
+
+### Local Development
+```bash
+# Install dependencies
+npm install
+
+# Run in development mode with auto-reload
+npm run dev:watch
+
+# Build for production
+npm run build
+```
+
+### Docker Development
+```bash
+# Build and run in development mode
+docker-compose up --build
+
+# View logs
+docker-compose logs -f
+
+# Stop and remove containers
+docker-compose down
+```
 
 ## Future Enhancements
 
