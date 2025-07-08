@@ -1,15 +1,33 @@
-// portfolio.js
+// portfolio.ts
 // Handles all portfolio data operations (file-based persistence)
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
 
 const PORTFOLIO_FILE = path.join(__dirname, 'portfolio.json');
 
+// Type definitions
+interface Purchase {
+    symbol: string;
+    price: number;
+    quantity: number;
+    totalSpent: number;
+    date: string;
+    userId: string;
+}
+
+interface PortfolioStatus {
+    symbol: string;
+    totalQuantity: number;
+    totalValue: number;
+    averagePrice: number;
+    purchases: Purchase[];
+}
+
 /**
  * Loads the portfolio data from the JSON file.
- * @returns {Array} Portfolio array
+ * @returns Portfolio array
  */
-function loadPortfolio() {
+function loadPortfolio(): Purchase[] {
     try {
         if (fs.existsSync(PORTFOLIO_FILE)) {
             const data = fs.readFileSync(PORTFOLIO_FILE, 'utf8');
@@ -23,9 +41,9 @@ function loadPortfolio() {
 
 /**
  * Saves the portfolio data to the JSON file.
- * @param {Array} portfolio Portfolio array to save
+ * @param portfolio Portfolio array to save
  */
-function savePortfolio(portfolio) {
+function savePortfolio(portfolio: Purchase[]): void {
     try {
         fs.writeFileSync(PORTFOLIO_FILE, JSON.stringify(portfolio, null, 2));
     } catch (error) {
@@ -35,20 +53,20 @@ function savePortfolio(portfolio) {
 
 /**
  * Adds a new cryptocurrency purchase to the portfolio.
- * @param {string} symbol Cryptocurrency symbol
- * @param {number} totalSpent Total amount spent in USD
- * @param {number} quantity Number of coins received
- * @param {string} userId Discord user ID
- * @returns {Object} The purchase object
+ * @param symbol Cryptocurrency symbol
+ * @param totalSpent Total amount spent in USD
+ * @param quantity Number of coins received
+ * @param userId Discord user ID
+ * @returns The purchase object
  */
-function addPurchase(symbol, totalSpent, quantity, userId) {
+export function addPurchase(symbol: string, totalSpent: number, quantity: number, userId: string): Purchase {
     const portfolio = loadPortfolio();
     const pricePerCoin = totalSpent / quantity;
-    const purchase = {
+    const purchase: Purchase = {
         symbol: symbol.toUpperCase(),
         price: pricePerCoin,
-        quantity: parseFloat(quantity),
-        totalSpent: parseFloat(totalSpent),
+        quantity: parseFloat(quantity.toString()),
+        totalSpent: parseFloat(totalSpent.toString()),
         date: new Date().toISOString(),
         userId: userId
     };
@@ -59,15 +77,16 @@ function addPurchase(symbol, totalSpent, quantity, userId) {
 
 /**
  * Gets the portfolio status, grouped by symbol and averaged.
- * @param {string|null} userId Discord user ID (optional)
- * @returns {Array} Array of grouped portfolio status
+ * @param userId Discord user ID (optional)
+ * @returns Array of grouped portfolio status
  */
-function getPortfolioStatus(userId = null) {
+export function getPortfolioStatus(userId: string | null = null): PortfolioStatus[] {
     let portfolio = loadPortfolio();
     if (userId) {
         portfolio = portfolio.filter(purchase => purchase.userId === userId);
     }
-    const grouped = {};
+    console.log
+    const grouped: Record<string, PortfolioStatus> = {};
     portfolio.forEach(purchase => {
         const symbol = purchase.symbol;
         if (!grouped[symbol]) {
@@ -75,6 +94,7 @@ function getPortfolioStatus(userId = null) {
                 symbol: symbol,
                 totalQuantity: 0,
                 totalValue: 0,
+                averagePrice: 0,
                 purchases: []
             };
         }
@@ -87,10 +107,3 @@ function getPortfolioStatus(userId = null) {
     });
     return Object.values(grouped);
 }
-
-module.exports = {
-    loadPortfolio,
-    savePortfolio,
-    addPurchase,
-    getPortfolioStatus
-}; 

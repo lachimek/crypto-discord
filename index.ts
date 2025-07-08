@@ -1,7 +1,9 @@
-const { Client, GatewayIntentBits, Events } = require('discord.js');
-require('dotenv').config();
-const { handleCAdd, handleCStatus, handleCHelp } = require('./commands');
-const { registerCommands } = require('./register-commands');
+import { Client, GatewayIntentBits, Events, Interaction } from 'discord.js';
+import dotenv from 'dotenv';
+import { handleCAdd, handleCStatus, handleCHelp } from './commands';
+import { registerCommands } from './register-commands';
+
+dotenv.config();
 
 // Initialize Discord client
 const client = new Client({
@@ -14,12 +16,12 @@ const client = new Client({
 
 // Bot ready event
 client.once(Events.ClientReady, () => {
-    console.log(`Bot is ready! Logged in as ${client.user.tag}`);
+    console.log(`Bot is ready! Logged in as ${client.user?.tag}`);
     registerCommands(client);
 });
 
 // Interaction event handler for slash commands
-client.on(Events.InteractionCreate, async (interaction) => {
+client.on(Events.InteractionCreate, async (interaction: Interaction) => {
     if (!interaction.isChatInputCommand()) return;
 
     const { commandName } = interaction;
@@ -34,11 +36,11 @@ client.on(Events.InteractionCreate, async (interaction) => {
 });
 
 // Error handling
-client.on('error', error => {
+client.on('error', (error: Error) => {
     console.error('Discord client error:', error);
 });
 
-process.on('unhandledRejection', error => {
+process.on('unhandledRejection', (error: Error) => {
     console.error('Unhandled promise rejection:', error);
 });
 

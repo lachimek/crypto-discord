@@ -1,11 +1,11 @@
 // Format number with spaces for thousands
 /**
  * Formats a number with spaces as thousand separators and fixed decimals.
- * @param {number} num The number to format
- * @param {number} decimals Number of decimal places
- * @returns {string} Formatted number string
+ * @param num The number to format
+ * @param decimals Number of decimal places
+ * @returns Formatted number string
  */
-function formatNumber(num, decimals = 2) {
+export function formatNumber(num: number, decimals: number = 2): string {
     const [integer, decimal] = num.toFixed(decimals).split('.');
     const formattedInt = integer.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
     let result = formattedInt;
@@ -18,10 +18,10 @@ function formatNumber(num, decimals = 2) {
 // Format portfolio status for display
 /**
  * Formats the portfolio status for Discord message display.
- * @param {Array} portfolio Portfolio status array
- * @returns {string} Formatted message
+ * @param portfolio Portfolio status array
+ * @returns Formatted message
  */
-function formatPortfolioStatus(portfolio) {
+export function formatPortfolioStatus(portfolio: any[]): string {
     if (portfolio.length === 0) {
         return "Your portfolio is empty. Use `/c-add <symbol> <total_spent> <quantity>` to add your first purchase.";
     }
@@ -36,9 +36,4 @@ function formatPortfolioStatus(portfolio) {
         message += `Total Invested: ${totalValue}\n\n`;
     });
     return message;
-}
-
-module.exports = {
-    formatNumber,
-    formatPortfolioStatus,
 }

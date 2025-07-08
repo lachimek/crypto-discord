@@ -1,6 +1,4 @@
-const { SlashCommandBuilder } = require('discord.js');
-const { REST } = require('discord.js');
-const { Routes } = require('discord.js');
+import { SlashCommandBuilder, REST, Routes, Client } from 'discord.js';
 
 // Define slash commands
 const commands = [
@@ -30,14 +28,14 @@ const commands = [
 ];
 
 // Register slash commands
-async function registerCommands(client) {
+export async function registerCommands(client: Client): Promise<void> {
     try {
-        const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_TOKEN);
+        const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_TOKEN!);
         
         console.log('Started refreshing application (/) commands.');
         
         await rest.put(
-            Routes.applicationCommands(client.user.id),
+            Routes.applicationCommands(client.user!.id),
             { body: commands },
         );
         
@@ -45,8 +43,4 @@ async function registerCommands(client) {
     } catch (error) {
         console.error('Error registering commands:', error);
     }
-}
-
-module.exports = {
-    registerCommands
 }
