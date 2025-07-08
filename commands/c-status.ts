@@ -10,7 +10,7 @@ import { formatPortfolioStatus } from '../utils';
 export async function handleCStatus(interaction: ChatInputCommandInteraction): Promise<void> {
     try {
         const portfolio = getPortfolioStatus(interaction.user.id);
-        const statusMessage = formatPortfolioStatus(portfolio);
+        const statusMessage = await formatPortfolioStatus(portfolio);
         await interaction.reply({ content: statusMessage, flags: MessageFlags.Ephemeral });
     } catch (error) {
         console.error('Error getting portfolio status:', error);

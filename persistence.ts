@@ -2,26 +2,9 @@
 // Handles all portfolio data operations (file-based persistence)
 import fs from 'fs';
 import path from 'path';
+import { Purchase, PortfolioStatus } from './types';
 
 const PORTFOLIO_FILE = path.join(__dirname, 'portfolio.json');
-
-// Type definitions
-interface Purchase {
-    symbol: string;
-    price: number;
-    quantity: number;
-    totalSpent: number;
-    date: string;
-    userId: string;
-}
-
-interface PortfolioStatus {
-    symbol: string;
-    totalQuantity: number;
-    totalValue: number;
-    averagePrice: number;
-    purchases: Purchase[];
-}
 
 /**
  * Loads the portfolio data from the JSON file.
