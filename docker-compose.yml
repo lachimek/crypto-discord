@@ -5,5 +5,5 @@ services:
     env_file:
       - .env
     volumes:
-      - ./portfolio.json:/app/portfolio.json
+      - ./portfolio.json:/app/dist/portfolio.json
     restart: unless-stopped 
