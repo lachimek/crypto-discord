@@ -24,7 +24,10 @@ const commands = [
         .setDescription('Display your current portfolio with average buy prices'),
     new SlashCommandBuilder()
         .setName('c-help')
-        .setDescription('Show help message with all available commands')
+        .setDescription('Show help message with all available commands'),
+    new SlashCommandBuilder()
+        .setName('c-symbols')
+        .setDescription('Show all supported symbols')
 ];
 
 // Register slash commands

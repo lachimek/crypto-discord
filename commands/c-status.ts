@@ -15,7 +15,7 @@ export async function handleCStatus(interaction: ChatInputCommandInteraction): P
     } catch (error) {
         console.error('Error getting portfolio status:', error);
         await interaction.reply({ 
-            content: '?? **Error:** Failed to retrieve portfolio status. Please try again.', 
+            content: ':warning: **Error:** Failed to retrieve portfolio status. Please try again.', 
             flags: MessageFlags.Ephemeral 
         });
     }

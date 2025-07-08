@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-enum SupportedSymbols {
+export enum SupportedSymbols {
     BTC = 'bitcoin',
     ETH = 'ethereum',
     ADA = 'cardano',

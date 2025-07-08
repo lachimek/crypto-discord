@@ -1,6 +1,6 @@
 import { Client, GatewayIntentBits, Events, Interaction } from 'discord.js';
 import dotenv from 'dotenv';
-import { handleCAdd, handleCStatus, handleCHelp } from './commands';
+import { handleCAdd, handleCStatus, handleCHelp, handleCSymbols } from './commands';
 import { registerCommands } from './register-commands';
 
 dotenv.config();
@@ -32,6 +32,8 @@ client.on(Events.InteractionCreate, async (interaction: Interaction) => {
         await handleCStatus(interaction);
     } else if (commandName === 'c-help') {
         await handleCHelp(interaction);
+    } else if (commandName === 'c-symbols') {
+        await handleCSymbols(interaction);
     }
 });
 
