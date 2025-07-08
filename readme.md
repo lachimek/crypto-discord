@@ -235,13 +235,11 @@ docker-compose down
 
 ## Future Enhancements
 
-- [ ] Multi-user support with user-specific portfolios
-- [ ] Sell tracking and realized gains/losses
 - [ ] Portfolio charts and graphs
 - [ ] Price alerts and notifications
 - [ ] Historical performance tracking
 - [ ] Database integration (MongoDB/PostgreSQL)
-- [ ] Additional commands (/sell, /remove, /portfolio)
+- [ ] Option to remove last added position
 
 ## Contributing
 
