@@ -1,9 +1,7 @@
 import { Client, GatewayIntentBits, Events, Interaction } from 'discord.js';
-import dotenv from 'dotenv';
+import 'dotenv/config';
 import { handleCAdd, handleCStatus, handleCHelp, handleCSymbols } from './commands';
 import { registerCommands } from './register-commands';
-
-dotenv.config();
 
 // Initialize Discord client
 const client = new Client({
