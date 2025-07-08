@@ -46,7 +46,7 @@ Display your current portfolio with detailed performance metrics and profit/loss
 
 **Example output:**
 ```
-?? Your Portfolio Status
+📊 Your Portfolio Status
 
 BTC
 Average Buy Price: $ 45,000.00
@@ -170,26 +170,26 @@ Show help message with all available commands.
 
 ```
 crypto-discord/
-??? commands/           # Discord slash commands
-?   ??? c-add.ts       # Add cryptocurrency purchase
-?   ??? c-help.ts      # Help command
-?   ??? c-status.ts    # Portfolio status
-?   ??? c-symbols.ts   # Supported symbols
-?   ??? index.ts       # Command exports
-??? pricing-api/        # Price fetching logic
-?   ??? index.ts       # CoinGecko API integration
-??? dist/              # Compiled JavaScript (generated)
-??? index.ts           # Main bot file
-??? persistence.ts     # Portfolio data management
-??? types.d.ts         # TypeScript type definitions
-??? utils.ts           # Utility functions
-??? package.json       # Dependencies and scripts
-??? tsconfig.json      # TypeScript configuration
-??? portfolio.json     # Portfolio data storage
-??? .env              # Environment variables (create this)
-??? Dockerfile        # Docker image configuration
-??? docker-compose.yml # Docker Compose configuration
-??? README.md         # This file
+├── commands/           # Discord slash commands
+│   ├── c-add.ts       # Add cryptocurrency purchase
+│   ├── c-help.ts      # Help command
+│   ├── c-status.ts    # Portfolio status
+│   ├── c-symbols.ts   # Supported symbols
+│   └── index.ts       # Command exports
+├── pricing-api/        # Price fetching logic
+│   └── index.ts       # CoinGecko API integration
+├── dist/              # Compiled JavaScript (generated)
+├── index.ts           # Main bot file
+├── persistence.ts     # Portfolio data management
+├── types.d.ts         # TypeScript type definitions
+├── utils.ts           # Utility functions
+├── package.json       # Dependencies and scripts
+├── tsconfig.json      # TypeScript configuration
+├── portfolio.json     # Portfolio data storage
+├── .env              # Environment variables (create this)
+├── Dockerfile        # Docker image configuration
+├── docker-compose.yml # Docker Compose configuration
+└── README.md         # This file
 ```
 
 ## Data Storage
